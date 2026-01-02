@@ -3,9 +3,10 @@ package BinaryTrees;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BinaryTrees {
+public class BinaryTrees2 {
 
-    static class Node{
+    public static class Node{
+
         int data;
         Node left;
         Node right;
@@ -17,7 +18,7 @@ public class BinaryTrees {
         }
     }
 
-    static class BinaryTree{
+    public static class BinaryTree{
         static int idx = -1;
 
         Node buildTree(int[] nodes){
@@ -28,15 +29,18 @@ public class BinaryTrees {
             }
 
             Node newNode = new Node(nodes[idx]);
-            newNode.left=buildTree(nodes);
+
+            newNode.left= buildTree(nodes);
             newNode.right=buildTree(nodes);
 
             return newNode;
+
+
         }
 
     }
 
-    static void preorder(Node root){
+    public static void preorder(Node root){
 
         if(root==null){
             return;
@@ -47,7 +51,7 @@ public class BinaryTrees {
         preorder(root.right);
     }
 
-    static void inorder(Node root){
+    public static void inorder(Node root){
 
         if(root==null){
             return;
@@ -58,7 +62,9 @@ public class BinaryTrees {
         inorder(root.right);
     }
 
-    static void postorder(Node root){
+
+    public static void postorder(Node root){
+
         if(root==null){
             return;
         }
@@ -68,75 +74,70 @@ public class BinaryTrees {
         System.out.print(root.data + " ");
     }
 
-    static void levelorder(Node root){
+    public static void levelorder(Node root){
         Queue<Node> q = new LinkedList<>();
+
+        if(root==null){
+            return;
+        }
+
         q.add(root);
         q.add(null);
 
         while(!q.isEmpty()){
-
-            Node newNode=q.remove();
+            Node newNode = q.remove();
 
             if(newNode==null){
                 System.out.println();
-
                 if(q.isEmpty()){
                     break;
-                }else{
+                }
+                else{
                     q.add(null);
                 }
             }
             else{
-                System.out.print(newNode.data+ " ");
+                System.out.print(newNode.data + " ");
                 if(newNode.left!=null){
                     q.add(newNode.left);
                 }
                 if(newNode.right!=null){
                     q.add(newNode.right);
                 }
+
             }
         }
-
     }
 
-    static int countNodes(Node root){
+    public static int countNodes(Node root){
 
         if(root==null){
             return 0;
         }
 
-        int leftNodes = countNodes(root.left);
-        int rightNodes = countNodes(root.right);
-
-        return leftNodes + rightNodes +1;
-
+        return countNodes(root.left) + countNodes(root.right) + 1;
     }
 
-    static int sumNodes(Node root){
+    public static int sumNodes(Node root){
 
         if(root==null){
             return 0;
         }
 
-        int leftSum=sumNodes(root.left);
-        int rightSum=sumNodes(root.right);
-
-        return leftSum+rightSum+root.data;
+        return sumNodes(root.left) + sumNodes(root.right) + root.data;
     }
 
-    static int height(Node root){
+    public static int height(Node root){
 
         if(root==null){
             return 0;
         }
 
-        int leftHeight=height(root.left);
-        int rightHeight=height(root.right);
 
-        return Math.max(leftHeight,rightHeight) +1;
+        return Math.max(height(root.left),height(root.right))+1;
     }
 
-    static int diameter(Node root){
+    public static int diameter(Node root){
 
         if(root==null){
             return 0;
@@ -144,47 +145,46 @@ public class BinaryTrees {
 
         int diam1 = diameter(root.left);
         int diam2 = diameter(root.right);
-        int diam3 = height(root.left) + height(root.right) + 1;
+        int diam3 = height(root.left) + height(root.right)+ 1;
 
         return Math.max(diam3, Math.max(diam1,diam2));
+
     }
 
 
-    public static void main(String[] args){
 
+    public static void main(String[] args){
         int[] nodes = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
 
         BinaryTree tree = new BinaryTree();
         Node root = tree.buildTree(nodes);
-
         System.out.println(root.data);
 
-        System.out.println("Preorder: ");
+        System.out.println("\nPreorder:");
         preorder(root);
 
-        System.out.print("\n \n");
-        System.out.println("Inorder: ");
+        System.out.println("\nInorder:");
         inorder(root);
 
-        System.out.print("\n \n");
-        System.out.println("Postorder: ");
+        System.out.println("\nPostorder:");
         postorder(root);
 
-        System.out.print("\n \n");
-        System.out.println("Levelorder: ");
+        System.out.println("\nLevelorder:");
         levelorder(root);
 
-        int count = countNodes(root);
 
-        System.out.println("\nTotal Nodes: "+count);
+        int count= countNodes(root);
+        System.out.println("\nNo of Nodes: " + count);
 
-        System.out.println("\nSum of Nodes: "+ sumNodes(root));
+        int s= sumNodes(root);
+        System.out.println("\nSum of Nodes: " + s);
 
-        System.out.println("\nHeight of Tree: "+ height(root));
+        int h= height(root);
+        System.out.println("\nHeight of Tree: " + h);
 
-        System.out.println("\nDiameter of Tree: "+ diameter(root));
+        int d= diameter(root);
+        System.out.println("\nDiameter of Tree: " + d);
+
 
     }
-
-
 }
